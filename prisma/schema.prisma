@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// ANY change to db you want to save: do npm prisma db push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// No need for Prisma Migrate, Neon also does migrations when pushing but confirm later
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clerkId String         @unique
+  email   String         @unique
+  entries JournalEntry[]
+}
+
+model JournalEntry {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id]) // fields looks in this model , references looks for it in other model
+  userId String
+
+  content String @db.Text // This allows long strings instead of var/char limits
+
+  analysis Analysis? // Needs entry first before analysis so make it optional
+
+  // Compounded index so it needs userId, id combo to be unique not just userId
+  // to allow multiple entries for each user and not just one
+  @@unique([userId, id])
+}
+
+model Analysis {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  entryId String
+  entry   JournalEntry @relation(fields: [entryId], references: [id])
+
+  mood     String
+  summary  String  @db.Text
+  color    String
+  negative Boolean
+
+  @@unique([entryId])
+}
