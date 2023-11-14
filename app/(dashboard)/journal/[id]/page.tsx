@@ -1,4 +1,5 @@
 import Editor from '@/components/Editor';
+import { analyze } from '@/utils/ai';
 import { getUserByClerkID } from '@/utils/auth';
 import { prisma } from '@/utils/db';
 
@@ -6,7 +7,7 @@ const getEntry = async (id) => {
   const user = await getUserByClerkID();
   const entry = await prisma.journalEntry.findUnique({
     where: {
-      //? look at combined index in journalentry schema for why its like this
+      //? look at combined index in journalentry schema for why its like this.
       userId_id: {
         userId: user.id,
         id,

@@ -1,5 +1,6 @@
 import EntryCard from '@/components/EntryCard';
 import NewEntryCard from '@/components/NewEntryCard';
+import { analyze } from '@/utils/ai';
 import { getUserByClerkID } from '@/utils/auth';
 import { prisma } from '@/utils/db';
 import Link from 'next/link';
@@ -14,6 +15,10 @@ const getEntries = async () => {
       createdAt: 'desc',
     },
   });
+
+  await analyze(
+    "I'm going to give you a journal entry, I want you to analyze a few things, I need the mood, summary, what the subject is, and a color representing the mood, You need to respond back with formatted JSON like so: {'mood': '', 'subject':'', 'color':'', 'negative':''} ",
+  );
 
   return entries;
 };
