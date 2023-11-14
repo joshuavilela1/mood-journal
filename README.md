@@ -1,13 +1,10 @@
 ## Getting Started
 
-The [course][course] covers the full process of building and deploying the application. The steps below summarize a few of the key requirements.
+### Running the Next.js Project
 
-### Create a new Next.js Project
-
-We recommend using Node version `18.x.x` and Next.js version `13.4.5` for this course.
+This was made using Node version `18.x.x` and Next.js version `13.4.5`.
 
 ```bash
-npx create-next-app@13.4.5 mood
 npm run dev
 ```
 
@@ -50,6 +47,3 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/new-user
 2. Select the `API` App.
 3. Create an [API Key](https://platform.openai.com/account/api-keys)
 4. Copy/Paste the key into your into `.env.local` using the variable `OPENAI_API_KEY`
-
-[fem]: https://frontendmasters.com
-[course]: https://frontendmasters.com/courses/fullstack-app-next-v3/
